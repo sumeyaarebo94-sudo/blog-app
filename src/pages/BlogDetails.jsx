@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function BlogDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
@@ -10,7 +11,7 @@ function BlogDetails() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch the selected blog post
+    // Fetch blog
     fetch(`https://dummyjson.com/posts/${id}`)
       .then((res) => {
         if (!res.ok) {
@@ -27,7 +28,7 @@ function BlogDetails() {
         setLoading(false);
       });
 
-    // Fetch comments for the selected blog post
+    // Fetch comments
     fetch(`https://dummyjson.com/comments/post/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -60,6 +61,10 @@ function BlogDetails() {
           <hr />
         </div>
       ))}
+
+      <button onClick={() => navigate("/")}>
+        ← Back
+      </button>
     </div>
   );
 }
