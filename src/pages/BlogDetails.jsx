@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAtom } from "jotai";
+import { bookmarksAtom } from "../atoms/bookmarkAtoms";
 
 function BlogDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
 
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
@@ -11,7 +15,7 @@ function BlogDetails() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch blog
+    // Fetch the selected blog post
     fetch(`https://dummyjson.com/posts/${id}`)
       .then((res) => {
         if (!res.ok) {
@@ -35,6 +39,10 @@ function BlogDetails() {
         setComments(data.comments);
       });
   }, [id]);
+
+  function addBookmark() {
+    setBookmarks([...bookmarks, post]);
+  }
 
   if (loading) return <h2>Loading...</h2>;
 
@@ -61,6 +69,10 @@ function BlogDetails() {
           <hr />
         </div>
       ))}
+
+      <button onClick={addBookmark}>
+        Bookmark
+      </button>
 
       <button onClick={() => navigate("/")}>
         ← Back
