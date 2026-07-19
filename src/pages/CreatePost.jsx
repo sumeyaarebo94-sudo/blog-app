@@ -6,7 +6,6 @@ import { createdPostsAtom } from "../atoms/bookmarkAtoms";
 function CreatePost() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-
   const [, setCreatedPosts] = useAtom(createdPostsAtom);
 
   const navigate = useNavigate();
@@ -21,16 +20,7 @@ function CreatePost() {
       tags: [],
     };
 
-    setCreatedPosts((prev) => {
-      const updatedPosts = [newPost, ...prev];
-
-      localStorage.setItem(
-        "createdPosts",
-        JSON.stringify(updatedPosts)
-      );
-
-      return updatedPosts;
-    });
+    setCreatedPosts((prev) => [newPost, ...prev]);
 
     fetch("https://dummyjson.com/posts/add", {
       method: "POST",
@@ -42,54 +32,40 @@ function CreatePost() {
         body,
         userId: 1,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    });
 
     alert("Post created successfully!");
-
     navigate("/");
   }
 
   return (
-    <div>
+    <div className="create-post">
       <h1>Create New Post</h1>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title</label>
-          <br />
-          <input
-            type="text"
-            placeholder="Enter post title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
+        <label>Title</label>
 
-        <br />
+        <input
+          type="text"
+          placeholder="Enter post title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
 
-        <div>
-          <label>Body</label>
-          <br />
-          <textarea
-            rows="6"
-            placeholder="Write your blog..."
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            required
-          />
-        </div>
+        <label>Body</label>
 
-        <br />
+        <textarea
+          rows="8"
+          placeholder="Write your blog..."
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          required
+        />
 
-        <button type="submit">Create Post</button>
+        <button type="submit">
+          Create Post
+        </button>
       </form>
     </div>
   );
