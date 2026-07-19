@@ -10,8 +10,14 @@ function BlogCard({ post }) {
       <p>{post.body}</p>
 
       <p>
+        ❤️ <strong>Likes:</strong> {post.reactions?.likes ?? post.reactions ?? 0}
+      </p>
+
+      <p>
         <strong>Tags:</strong>{" "}
-        {post.tags ? post.tags.join(", ") : "No Tags"}
+        {post.tags && post.tags.length > 0
+          ? post.tags.join(", ")
+          : "No Tags"}
       </p>
 
       <hr />

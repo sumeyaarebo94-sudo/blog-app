@@ -3,7 +3,20 @@ import { bookmarksAtom } from "../atoms/bookmarkAtoms";
 import BlogCard from "../components/BlogCard";
 
 function Bookmarks() {
-  const [bookmarks] = useAtom(bookmarksAtom);
+  const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
+
+  function removeBookmark(id) {
+    const updatedBookmarks = bookmarks.filter(
+      (post) => post.id !== id
+    );
+
+    setBookmarks(updatedBookmarks);
+
+    localStorage.setItem(
+      "bookmarks",
+      JSON.stringify(updatedBookmarks)
+    );
+  }
 
   return (
     <div>
@@ -13,7 +26,15 @@ function Bookmarks() {
         <p>No bookmarked posts yet.</p>
       ) : (
         bookmarks.map((post) => (
-          <BlogCard key={post.id} post={post} />
+          <div key={post.id}>
+            <BlogCard post={post} />
+
+            <button onClick={() => removeBookmark(post.id)}>
+              Remove Bookmark
+            </button>
+
+            <hr />
+          </div>
         ))
       )}
     </div>
