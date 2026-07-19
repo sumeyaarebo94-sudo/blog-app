@@ -115,3 +115,24 @@ hr {
 .blog-card p {
   margin-bottom: 10px;
 }
+.home h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tag-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tag-buttons button {
+  background-color: lightgray;
+  color: black;
+}
+
+.tag-buttons button:hover {
+  background-color: royalblue;
+  color: white;
+}

@@ -7,18 +7,14 @@ import BlogCard from "../components/BlogCard";
 function Home() {
   const [posts, setPosts] = useState([]);
   const [createdPosts] = useAtom(createdPostsAtom);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [selectedTag, setSelectedTag] = useState("All");
 
   useEffect(() => {
     fetch("https://dummyjson.com/posts?limit=10")
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch posts");
-        }
+        if (!res.ok) throw new Error("Failed to fetch posts");
         return res.json();
       })
       .then(async (data) => {
@@ -27,7 +23,6 @@ function Home() {
             const res = await fetch(
               `https://dummyjson.com/comments/post/${post.id}`
             );
-
             const comments = await res.json();
 
             return {
@@ -64,8 +59,8 @@ function Home() {
         );
 
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className="home">
+      <h1>Personal Blog</h1>
 
       <Link to="/create">
         <button>Create New Post</button>
@@ -76,20 +71,27 @@ function Home() {
 
       <h3>Filter by Tag</h3>
 
-      {allTags.map((tag) => (
-        <button
-          key={tag}
-          onClick={() => setSelectedTag(tag)}
-        >
-          {tag}
-        </button>
-      ))}
+      <div className="tag-buttons">
+        {allTags.map((tag) => (
+          <button
+            key={tag}
+            onClick={() => setSelectedTag(tag)}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
 
-      <br />
       <br />
 
       {filteredPosts.map((post) => (
-        <BlogCard key={post.id} post={post} />
+        <BlogCard
+          key={post.id}
+          post={post}
+          isCreated={createdPosts.some(
+            (p) => p.id === post.id
+          )}
+        />
       ))}
     </div>
   );

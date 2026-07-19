@@ -1,6 +1,29 @@
 import { Link } from "react-router-dom";
+import { useAtom } from "jotai";
+import { createdPostsAtom } from "../atoms/bookmarkAtoms";
 
-function BlogCard({ post }) {
+function BlogCard({ post, isCreated }) {
+  const [createdPosts, setCreatedPosts] = useAtom(createdPostsAtom);
+
+  function deletePost() {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+
+    if (!confirmDelete) return;
+
+    const updatedPosts = createdPosts.filter(
+      (p) => p.id !== post.id
+    );
+
+    setCreatedPosts(updatedPosts);
+
+    localStorage.setItem(
+      "createdPosts",
+      JSON.stringify(updatedPosts)
+    );
+  }
+
   return (
     <div className="blog-card">
       <Link to={`/blog/${post.id}`}>
@@ -25,6 +48,12 @@ function BlogCard({ post }) {
           ? post.tags.join(", ")
           : "No Tags"}
       </p>
+
+      {isCreated && (
+        <button onClick={deletePost}>
+          Delete Post
+        </button>
+      )}
     </div>
   );
 }
