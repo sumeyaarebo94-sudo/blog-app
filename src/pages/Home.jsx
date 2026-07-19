@@ -21,8 +21,23 @@ function Home() {
         }
         return res.json();
       })
-      .then((data) => {
-        setPosts(data.posts);
+      .then(async (data) => {
+        const postsWithComments = await Promise.all(
+          data.posts.map(async (post) => {
+            const res = await fetch(
+              `https://dummyjson.com/comments/post/${post.id}`
+            );
+
+            const comments = await res.json();
+
+            return {
+              ...post,
+              commentCount: comments.comments.length,
+            };
+          })
+        );
+
+        setPosts(postsWithComments);
         setLoading(false);
       })
       .catch((err) => {
@@ -38,9 +53,7 @@ function Home() {
 
   const allTags = [
     "All",
-    ...new Set(
-      allPosts.flatMap((post) => post.tags || [])
-    ),
+    ...new Set(allPosts.flatMap((post) => post.tags || [])),
   ];
 
   const filteredPosts =

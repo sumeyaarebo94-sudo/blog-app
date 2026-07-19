@@ -10,7 +10,13 @@ function BlogCard({ post }) {
       <p>{post.body}</p>
 
       <p>
-        ❤️ <strong>Likes:</strong> {post.reactions?.likes ?? post.reactions ?? 0}
+        ❤️ <strong>Likes:</strong>{" "}
+        {post.reactions?.likes ?? post.reactions ?? 0}
+      </p>
+
+      <p>
+        💬 <strong>Comments:</strong>{" "}
+        {post.commentCount ?? 0}
       </p>
 
       <p>
