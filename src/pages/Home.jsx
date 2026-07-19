@@ -11,6 +11,8 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [selectedTag, setSelectedTag] = useState("All");
+
   useEffect(() => {
     fetch("https://dummyjson.com/posts?limit=10")
       .then((res) => {
@@ -34,6 +36,20 @@ function Home() {
 
   const allPosts = [...createdPosts, ...posts];
 
+  const allTags = [
+    "All",
+    ...new Set(
+      allPosts.flatMap((post) => post.tags || [])
+    ),
+  ];
+
+  const filteredPosts =
+    selectedTag === "All"
+      ? allPosts
+      : allPosts.filter((post) =>
+          post.tags?.includes(selectedTag)
+        );
+
   return (
     <div>
       <h1>Home Page</h1>
@@ -45,7 +61,21 @@ function Home() {
       <br />
       <br />
 
-      {allPosts.map((post) => (
+      <h3>Filter by Tag</h3>
+
+      {allTags.map((tag) => (
+        <button
+          key={tag}
+          onClick={() => setSelectedTag(tag)}
+        >
+          {tag}
+        </button>
+      ))}
+
+      <br />
+      <br />
+
+      {filteredPosts.map((post) => (
         <BlogCard key={post.id} post={post} />
       ))}
     </div>
