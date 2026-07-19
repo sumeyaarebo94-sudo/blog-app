@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAtom } from "jotai";
 import { createdPostsAtom } from "../atoms/bookmarkAtoms";
 import BlogCard from "../components/BlogCard";
@@ -36,6 +37,13 @@ function Home() {
   return (
     <div>
       <h1>Home Page</h1>
+
+      <Link to="/create">
+        <button>Create New Post</button>
+      </Link>
+
+      <br />
+      <br />
 
       {allPosts.map((post) => (
         <BlogCard key={post.id} post={post} />
