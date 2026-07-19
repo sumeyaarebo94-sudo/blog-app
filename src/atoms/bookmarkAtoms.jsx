@@ -1,3 +1,11 @@
 import { atom } from "jotai";
 
-export const bookmarksAtom = atom([]);
+const savedBookmarks =
+  JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+const savedCreatedPosts =
+  JSON.parse(localStorage.getItem("createdPosts")) || [];
+
+export const bookmarksAtom = atom(savedBookmarks);
+
+export const createdPostsAtom = atom(savedCreatedPosts);

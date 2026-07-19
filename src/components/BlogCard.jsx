@@ -7,7 +7,14 @@ function BlogCard({ post }) {
         <h2>{post.title}</h2>
       </Link>
 
-      <p>{post.tags.join(", ")}</p>
+      <p>{post.body}</p>
+
+      <p>
+        <strong>Tags:</strong>{" "}
+        {post.tags ? post.tags.join(", ") : "No Tags"}
+      </p>
+
+      <hr />
     </div>
   );
 }
