@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function BlogCard({ post }) {
   return (
-    <div>
+    <div className="blog-card">
       <Link to={`/blog/${post.id}`}>
         <h2>{post.title}</h2>
       </Link>
@@ -25,8 +25,6 @@ function BlogCard({ post }) {
           ? post.tags.join(", ")
           : "No Tags"}
       </p>
-
-      <hr />
     </div>
   );
 }

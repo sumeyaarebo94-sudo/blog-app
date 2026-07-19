@@ -95,3 +95,23 @@ hr {
 .nav-links a:hover {
   color: lightgray;
 }
+.blog-card {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px lightgray;
+}
+
+.blog-card:hover {
+  transform: scale(1.02);
+}
+
+.blog-card h2 {
+  color: royalblue;
+  margin-bottom: 10px;
+}
+
+.blog-card p {
+  margin-bottom: 10px;
+}
