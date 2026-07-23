@@ -7,14 +7,19 @@ import BlogCard from "../components/BlogCard";
 function Home() {
   const [posts, setPosts] = useState([]);
   const [createdPosts] = useAtom(createdPostsAtom);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [selectedTag, setSelectedTag] = useState("All");
 
   useEffect(() => {
     fetch("https://dummyjson.com/posts?limit=10")
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch posts");
+        if (!res.ok) {
+          throw new Error("Failed to fetch posts");
+        }
+
         return res.json();
       })
       .then(async (data) => {
@@ -23,38 +28,77 @@ function Home() {
             const res = await fetch(
               `https://dummyjson.com/comments/post/${post.id}`
             );
+
             const comments = await res.json();
+
+            const localComments =
+              JSON.parse(
+                localStorage.getItem(
+                  `comments-${post.id}`
+                )
+              ) || [];
 
             return {
               ...post,
-              commentCount: comments.comments.length,
+              commentCount:
+                comments.comments.length +
+                localComments.length,
             };
           })
         );
 
-        setPosts(postsWithComments);
+        const localCreatedPosts =
+          createdPosts.map((post) => {
+            const localComments =
+              JSON.parse(
+                localStorage.getItem(
+                  `comments-${post.id}`
+                )
+              ) || [];
+
+            return {
+              ...post,
+              commentCount:
+                localComments.length,
+            };
+          });
+
+        const allPosts = [
+          ...localCreatedPosts,
+          ...postsWithComments,
+        ];
+
+        setPosts(allPosts);
+
         setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [createdPosts]);
 
-  if (loading) return <h2>Loading...</h2>;
-  if (error) return <h2>{error}</h2>;
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
-  const allPosts = [...createdPosts, ...posts];
+  if (error) {
+    return <h2>{error}</h2>;
+  }
 
   const allTags = [
     "All",
-    ...new Set(allPosts.flatMap((post) => post.tags || [])),
+    ...new Set(
+      posts.flatMap(
+        (post) => post.tags || []
+      )
+    ),
   ];
 
   const filteredPosts =
     selectedTag === "All"
-      ? allPosts
-      : allPosts.filter((post) =>
+      ? posts
+      : posts.filter((post) =>
           post.tags?.includes(selectedTag)
         );
 
@@ -63,7 +107,9 @@ function Home() {
       <h1>Personal Blog</h1>
 
       <Link to="/create">
-        <button>Create New Post</button>
+        <button>
+          Create New Post
+        </button>
       </Link>
 
       <br />
@@ -75,7 +121,9 @@ function Home() {
         {allTags.map((tag) => (
           <button
             key={tag}
-            onClick={() => setSelectedTag(tag)}
+            onClick={() =>
+              setSelectedTag(tag)
+            }
           >
             {tag}
           </button>

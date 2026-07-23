@@ -6,6 +6,7 @@ import { createdPostsAtom } from "../atoms/bookmarkAtoms";
 function CreatePost() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
   const [, setCreatedPosts] = useAtom(createdPostsAtom);
 
   const navigate = useNavigate();
@@ -18,23 +19,28 @@ function CreatePost() {
       title,
       body,
       tags: [],
+      reactions: {
+        likes: 0,
+      },
+      commentCount: 0,
     };
 
-    setCreatedPosts((prev) => [newPost, ...prev]);
+    setCreatedPosts((prev) => {
+      const updatedPosts = [newPost, ...prev];
 
-    fetch("https://dummyjson.com/posts/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title,
-        body,
-        userId: 1,
-      }),
+      localStorage.setItem(
+        "createdPosts",
+        JSON.stringify(updatedPosts)
+      );
+
+      return updatedPosts;
     });
 
+    setTitle("");
+    setBody("");
+
     alert("Post created successfully!");
+
     navigate("/");
   }
 
@@ -49,7 +55,9 @@ function CreatePost() {
           type="text"
           placeholder="Enter post title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) =>
+            setTitle(e.target.value)
+          }
           required
         />
 
@@ -59,7 +67,9 @@ function CreatePost() {
           rows="8"
           placeholder="Write your blog..."
           value={body}
-          onChange={(e) => setBody(e.target.value)}
+          onChange={(e) =>
+            setBody(e.target.value)
+          }
           required
         />
 

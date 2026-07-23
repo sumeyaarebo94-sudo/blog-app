@@ -1,9 +1,56 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useAtom } from "jotai";
-import { createdPostsAtom } from "../atoms/bookmarkAtoms";
+import {
+  createdPostsAtom,
+  bookmarksAtom,
+} from "../atoms/bookmarkAtoms";
 
 function BlogCard({ post, isCreated }) {
-  const [createdPosts, setCreatedPosts] = useAtom(createdPostsAtom);
+  const [createdPosts, setCreatedPosts] =
+    useAtom(createdPostsAtom);
+
+  const [bookmarks, setBookmarks] =
+    useAtom(bookmarksAtom);
+
+  const savedLikes =
+    JSON.parse(localStorage.getItem("likes")) || {};
+
+  const [likes, setLikes] = useState(
+    savedLikes[post.id] ??
+      (post.reactions?.likes ??
+        post.reactions ??
+        0)
+  );
+
+  const [liked, setLiked] = useState(
+    savedLikes[`${post.id}-liked`] || false
+  );
+
+  function likePost() {
+    const updatedLikes = {
+      ...savedLikes,
+    };
+
+    if (liked) {
+      updatedLikes[post.id] = likes - 1;
+      updatedLikes[`${post.id}-liked`] = false;
+
+      setLikes(likes - 1);
+      setLiked(false);
+    } else {
+      updatedLikes[post.id] = likes + 1;
+      updatedLikes[`${post.id}-liked`] = true;
+
+      setLikes(likes + 1);
+      setLiked(true);
+    }
+
+    localStorage.setItem(
+      "likes",
+      JSON.stringify(updatedLikes)
+    );
+  }
 
   function deletePost() {
     const confirmDelete = window.confirm(
@@ -22,6 +69,18 @@ function BlogCard({ post, isCreated }) {
       "createdPosts",
       JSON.stringify(updatedPosts)
     );
+
+    const updatedBookmarks =
+      bookmarks.filter(
+        (p) => p.id !== post.id
+      );
+
+    setBookmarks(updatedBookmarks);
+
+    localStorage.setItem(
+      "bookmarks",
+      JSON.stringify(updatedBookmarks)
+    );
   }
 
   return (
@@ -32,9 +91,15 @@ function BlogCard({ post, isCreated }) {
 
       <p>{post.body}</p>
 
-      <p>
-        ❤️ <strong>Likes:</strong>{" "}
-        {post.reactions?.likes ?? post.reactions ?? 0}
+      <p
+        onClick={likePost}
+        style={{
+          cursor: "pointer",
+          userSelect: "none",
+          fontWeight: "bold",
+        }}
+      >
+        {liked ? "❤️" : "🤍"} Likes: {likes}
       </p>
 
       <p>
@@ -44,7 +109,8 @@ function BlogCard({ post, isCreated }) {
 
       <p>
         <strong>Tags:</strong>{" "}
-        {post.tags && post.tags.length > 0
+        {post.tags &&
+        post.tags.length > 0
           ? post.tags.join(", ")
           : "No Tags"}
       </p>
