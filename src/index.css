@@ -387,3 +387,21 @@ hr {
 .details-buttons {
   margin-top: 30px;
 }
+.welcome-text {
+  text-align: center;
+  color: gray;
+  font-size: 18px;
+  margin: 15px 0 25px;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -8,7 +8,6 @@ function CreatePost() {
   const [body, setBody] = useState("");
 
   const [, setCreatedPosts] = useAtom(createdPostsAtom);
-
   const navigate = useNavigate();
 
   function handleSubmit(e) {
@@ -46,7 +45,7 @@ function CreatePost() {
 
   return (
     <div className="create-post">
-      <h1>Create New Post</h1>
+      <h1>➕ Create New Post</h1>
 
       <form onSubmit={handleSubmit}>
         <label>Title</label>
@@ -55,9 +54,7 @@ function CreatePost() {
           type="text"
           placeholder="Enter post title"
           value={title}
-          onChange={(e) =>
-            setTitle(e.target.value)
-          }
+          onChange={(e) => setTitle(e.target.value)}
           required
         />
 
@@ -67,14 +64,12 @@ function CreatePost() {
           rows="8"
           placeholder="Write your blog..."
           value={body}
-          onChange={(e) =>
-            setBody(e.target.value)
-          }
+          onChange={(e) => setBody(e.target.value)}
           required
         />
 
         <button type="submit">
-          Create Post
+          Publish Post
         </button>
       </form>
     </div>

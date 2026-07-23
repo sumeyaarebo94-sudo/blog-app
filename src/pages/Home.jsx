@@ -7,10 +7,8 @@ import BlogCard from "../components/BlogCard";
 function Home() {
   const [posts, setPosts] = useState([]);
   const [createdPosts] = useAtom(createdPostsAtom);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [selectedTag, setSelectedTag] = useState("All");
 
   useEffect(() => {
@@ -19,7 +17,6 @@ function Home() {
         if (!res.ok) {
           throw new Error("Failed to fetch posts");
         }
-
         return res.json();
       })
       .then(async (data) => {
@@ -28,14 +25,11 @@ function Home() {
             const res = await fetch(
               `https://dummyjson.com/comments/post/${post.id}`
             );
-
             const comments = await res.json();
 
             const localComments =
               JSON.parse(
-                localStorage.getItem(
-                  `comments-${post.id}`
-                )
+                localStorage.getItem(`comments-${post.id}`)
               ) || [];
 
             return {
@@ -51,15 +45,12 @@ function Home() {
           createdPosts.map((post) => {
             const localComments =
               JSON.parse(
-                localStorage.getItem(
-                  `comments-${post.id}`
-                )
+                localStorage.getItem(`comments-${post.id}`)
               ) || [];
 
             return {
               ...post,
-              commentCount:
-                localComments.length,
+              commentCount: localComments.length,
             };
           });
 
@@ -69,7 +60,6 @@ function Home() {
         ];
 
         setPosts(allPosts);
-
         setLoading(false);
       })
       .catch((err) => {
@@ -89,9 +79,7 @@ function Home() {
   const allTags = [
     "All",
     ...new Set(
-      posts.flatMap(
-        (post) => post.tags || []
-      )
+      posts.flatMap((post) => post.tags || [])
     ),
   ];
 
@@ -106,11 +94,15 @@ function Home() {
     <div className="home">
       <h1>Personal Blog</h1>
 
+      <p className="welcome-text">
+        Welcome! Discover interesting posts,
+        share your ideas, and connect through
+        comments.
+      </p>
+
       <Link to="/create">
-        <button>
-          ➕ Create New Post
-        </button>
-     </Link>
+        <button>➕ Create New Post</button>
+      </Link>
 
       <br />
       <br />
@@ -132,15 +124,17 @@ function Home() {
 
       <br />
 
-      {filteredPosts.map((post) => (
-        <BlogCard
-          key={post.id}
-          post={post}
-          isCreated={createdPosts.some(
-            (p) => p.id === post.id
-          )}
-        />
-      ))}
+      <div className="blog-grid">
+        {filteredPosts.map((post) => (
+          <BlogCard
+            key={post.id}
+            post={post}
+            isCreated={createdPosts.some(
+              (p) => p.id === post.id
+            )}
+          />
+        ))}
+      </div>
     </div>
   );
 }
