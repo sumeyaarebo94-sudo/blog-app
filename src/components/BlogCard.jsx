@@ -89,9 +89,19 @@ function BlogCard({ post, isCreated }) {
         <h2>{post.title}</h2>
       </Link>
 
-      <p>{post.body}</p>
+     <p>
+         {post.body?.length > 120
+         ? post.body.slice(0, 120) + "..."
+         : post.body}
+     </p>
 
-      <p
+    <Link
+        to={`/blog/${post.id}`}
+        className="read-more"
+>
+       Read More →
+   </Link> 
+  <p
         onClick={likePost}
         style={{
           cursor: "pointer",
@@ -107,13 +117,23 @@ function BlogCard({ post, isCreated }) {
         {post.commentCount ?? 0}
       </p>
 
-      <p>
-        <strong>Tags:</strong>{" "}
-        {post.tags &&
-        post.tags.length > 0
-          ? post.tags.join(", ")
-          : "No Tags"}
-      </p>
+      <div className="tags">
+         {post.tags &&
+          post.tags.length > 0 ? (
+          post.tags.map((tag) => (
+        <span
+          key={tag}
+          className="tag"
+      >
+          #{tag}
+        </span>
+       ))
+       ) : (
+       <span className="tag">
+         No Tags
+       </span>
+       )}
+      </div>   
 
       {isCreated && (
         <button onClick={deletePost}>
