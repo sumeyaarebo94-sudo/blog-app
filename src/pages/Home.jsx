@@ -108,9 +108,9 @@ function Home() {
 
       <Link to="/create">
         <button>
-          Create New Post
+          ➕ Create New Post
         </button>
-      </Link>
+     </Link>
 
       <br />
       <br />
