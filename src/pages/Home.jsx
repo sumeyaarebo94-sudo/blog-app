@@ -41,18 +41,17 @@ function Home() {
           })
         );
 
-        const localCreatedPosts =
-          createdPosts.map((post) => {
-            const localComments =
-              JSON.parse(
-                localStorage.getItem(`comments-${post.id}`)
-              ) || [];
+        const localCreatedPosts = createdPosts.map((post) => {
+          const localComments =
+            JSON.parse(
+              localStorage.getItem(`comments-${post.id}`)
+            ) || [];
 
-            return {
-              ...post,
-              commentCount: localComments.length,
-            };
-          });
+          return {
+            ...post,
+            commentCount: localComments.length,
+          };
+        });
 
         const allPosts = [
           ...localCreatedPosts,
@@ -78,9 +77,7 @@ function Home() {
 
   const allTags = [
     "All",
-    ...new Set(
-      posts.flatMap((post) => post.tags || [])
-    ),
+    ...new Set(posts.flatMap((post) => post.tags || [])),
   ];
 
   const filteredPosts =
@@ -92,19 +89,21 @@ function Home() {
 
   return (
     <div className="home">
-      <h1>Personal Blog</h1>
+      <div className="welcome-section">
+        <h1>📝 Personal Blog</h1>
 
-      <p className="welcome-text">
-        Welcome! Discover interesting posts,
-        share your ideas, and connect through
-        comments.
-      </p>
+        <p>
+          Welcome! Discover interesting posts, share your ideas,
+          and connect through comments.
+        </p>
 
-      <Link to="/create">
-        <button>➕ Create New Post</button>
-      </Link>
+        <Link to="/create">
+          <button className="create-btn">
+            ➕ Create New Post
+          </button>
+        </Link>
+      </div>
 
-      <br />
       <br />
 
       <h3>Filter by Tag</h3>
@@ -113,9 +112,7 @@ function Home() {
         {allTags.map((tag) => (
           <button
             key={tag}
-            onClick={() =>
-              setSelectedTag(tag)
-            }
+            onClick={() => setSelectedTag(tag)}
           >
             {tag}
           </button>
