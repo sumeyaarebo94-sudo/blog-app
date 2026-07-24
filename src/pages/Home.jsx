@@ -53,12 +53,11 @@ function Home() {
           };
         });
 
-        const allPosts = [
+        setPosts([
           ...localCreatedPosts,
           ...postsWithComments,
-        ];
+        ]);
 
-        setPosts(allPosts);
         setLoading(false);
       })
       .catch((err) => {
@@ -67,19 +66,12 @@ function Home() {
       });
   }, [createdPosts]);
 
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
-
-  if (error) {
-    return <h2>{error}</h2>;
-  }
+  if (loading) return <h2>Loading...</h2>;
+  if (error) return <h2>{error}</h2>;
 
   const allTags = [
     "All",
-    ...new Set(
-      posts.flatMap((post) => post.tags || [])
-    ),
+    ...new Set(posts.flatMap((post) => post.tags || [])),
   ];
 
   const filteredPosts =
@@ -92,7 +84,6 @@ function Home() {
   return (
     <div className="home">
       <div className="welcome-section">
-
         <p>
           Welcome! Discover interesting posts,
           share your ideas, and connect through
@@ -106,16 +97,14 @@ function Home() {
         {allTags.map((tag) => (
           <button
             key={tag}
-            onClick={() =>
-              setSelectedTag(tag)
-            }
+            onClick={() => setSelectedTag(tag)}
           >
             {tag}
           </button>
         ))}
       </div>
 
-      <div className="blog-grid">
+      <div className="posts-grid">
         {filteredPosts.map((post) => (
           <BlogCard
             key={post.id}
