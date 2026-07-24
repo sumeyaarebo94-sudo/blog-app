@@ -30,11 +30,8 @@ function BlogDetails() {
     fetch(`https://dummyjson.com/posts/${id}`)
       .then((res) => {
         if (!res.ok) {
-          throw new Error(
-            "Failed to fetch post"
-          );
+          throw new Error("Failed to fetch post");
         }
-
         return res.json();
       })
       .then((data) => {
@@ -53,9 +50,7 @@ function BlogDetails() {
       .then((data) => {
         const savedComments =
           JSON.parse(
-            localStorage.getItem(
-              `comments-${id}`
-            )
+            localStorage.getItem(`comments-${id}`)
           ) || [];
 
         setComments([
@@ -65,12 +60,12 @@ function BlogDetails() {
       });
   }, [id]);
 
+  const isBookmarked = bookmarks.some(
+    (p) => p.id === post?.id
+  );
+
   function addBookmark() {
-    if (
-      bookmarks.some(
-        (p) => p.id === post.id
-      )
-    ) {
+    if (isBookmarked) {
       alert("Already bookmarked!");
       return;
     }
@@ -88,6 +83,22 @@ function BlogDetails() {
     );
 
     alert("Bookmarked!");
+  }
+
+  function removeBookmark() {
+    const updatedBookmarks =
+      bookmarks.filter(
+        (p) => p.id !== post.id
+      );
+
+    setBookmarks(updatedBookmarks);
+
+    localStorage.setItem(
+      "bookmarks",
+      JSON.stringify(updatedBookmarks)
+    );
+
+    alert("Bookmark removed!");
   }
 
   function saveComments(updated) {
@@ -132,7 +143,6 @@ function BlogDetails() {
         );
 
       saveComments(updated);
-
       setEditingId(null);
     } else {
       const comment = {
@@ -156,9 +166,7 @@ function BlogDetails() {
 
   function editComment(comment) {
     setEditingId(comment.id);
-    setName(
-      comment.user.username
-    );
+    setName(comment.user.username);
     setNewComment(comment.body);
   }
 
@@ -184,13 +192,12 @@ function BlogDetails() {
 
   if (error)
     return <h2>{error}</h2>;
-    return (
-    <div className="blog-details">
 
+  return (
+    <div className="blog-details">
       <h1>Blog Details</h1>
 
       <div className="details-card">
-
         <h2>{post.title}</h2>
 
         <p>{post.body}</p>
@@ -208,11 +215,9 @@ function BlogDetails() {
             ? post.tags.join(", ")
             : "No Tags"}
         </p>
-
       </div>
 
       <div className="comments-section">
-
         <h2>
           Comments ({comments.length})
         </h2>
@@ -230,7 +235,6 @@ function BlogDetails() {
 
             {comment.isUserComment && (
               <div className="comment-actions">
-
                 <button
                   onClick={() =>
                     editComment(comment)
@@ -248,17 +252,13 @@ function BlogDetails() {
                 >
                   Delete
                 </button>
-
               </div>
             )}
-
           </div>
         ))}
-
       </div>
 
       <div className="add-comment">
-
         <h2>
           {editingId !== null
             ? "Edit Comment"
@@ -290,16 +290,23 @@ function BlogDetails() {
             ? "Save Changes"
             : "Add Comment"}
         </button>
-
       </div>
 
       <div className="details-buttons">
 
-        <button
-          onClick={addBookmark}
-        >
-          Bookmark
-        </button>
+        {isBookmarked ? (
+          <button
+            onClick={removeBookmark}
+          >
+            Remove Bookmark
+          </button>
+        ) : (
+          <button
+            onClick={addBookmark}
+          >
+            Bookmark
+          </button>
+        )}
 
         <button
           onClick={() =>
@@ -310,7 +317,6 @@ function BlogDetails() {
         </button>
 
       </div>
-
     </div>
   );
 }
