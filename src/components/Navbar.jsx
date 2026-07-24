@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ search, setSearch }) {
   return (
     <nav className="navbar">
       <h2>📝 Personal Blog</h2>
@@ -11,9 +11,13 @@ function Navbar() {
         <Link to="/bookmarks">Bookmarks</Link>
       </div>
 
-      <Link to="/create" className="create-btn">
-        + Create Post
-      </Link>
+      <input
+        type="text"
+        placeholder="🔍 Search posts..."
+        className="search-box"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
     </nav>
   );
 }

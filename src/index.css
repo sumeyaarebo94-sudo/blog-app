@@ -512,4 +512,35 @@ hr {
 
 .scroll-top:hover {
   background-color: blue;
+} .search-box {
+  width: 220px;
+  padding: 10px 15px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  margin: 0;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: royalblue;
+}
+.search-box {
+  width: 220px;
+  padding: 10px 15px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  font-size: 15px;
+  margin: 0;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: royalblue;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
 }

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAtom } from "jotai";
 import { createdPostsAtom } from "../atoms/bookmarkAtoms";
 import BlogCard from "../components/BlogCard";
 
-function Home() {
+function Home({ search }) {
   const [posts, setPosts] = useState([]);
   const [createdPosts] = useAtom(createdPostsAtom);
 
@@ -71,11 +72,7 @@ function Home() {
 
   useEffect(() => {
     function handleScroll() {
-      if (window.scrollY > 300) {
-        setShowTop(true);
-      } else {
-        setShowTop(false);
-      }
+      setShowTop(window.scrollY > 300);
     }
 
     window.addEventListener("scroll", handleScroll);
@@ -92,7 +89,6 @@ function Home() {
   }
 
   if (loading) return <h2>Loading...</h2>;
-
   if (error) return <h2>{error}</h2>;
 
   const allTags = [
@@ -100,12 +96,21 @@ function Home() {
     ...new Set(posts.flatMap((post) => post.tags || [])),
   ];
 
-  const filteredPosts =
-    selectedTag === "All"
-      ? posts
-      : posts.filter((post) =>
-          post.tags?.includes(selectedTag)
-        );
+  const filteredPosts = posts.filter((post) => {
+    const matchTag =
+      selectedTag === "All" ||
+      post.tags?.includes(selectedTag);
+
+    const matchSearch =
+      post.title
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      post.body
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+    return matchTag && matchSearch;
+  });
 
   return (
     <div className="home">
@@ -117,7 +122,13 @@ function Home() {
         </p>
       </div>
 
-      <h3>Filter by Tag</h3>
+      <div className="filter-header">
+        <h3>Filter by Tag</h3>
+
+        <Link to="/create">
+          <button>+ Create Post</button>
+        </Link>
+      </div>
 
       <div className="tag-buttons">
         {allTags.map((tag) => (
