@@ -31,12 +31,10 @@ p {
 a {
   text-decoration: none;
   color: royalblue;
-  transition: color 0.3s ease;
 }
 
 a:hover {
   color: blue;
-  text-decoration: underline;
 }
 
 button {
@@ -53,7 +51,6 @@ button {
 
 button:hover {
   background-color: blue;
-  transform: scale(1.05);
 }
 
 input,
@@ -65,13 +62,6 @@ textarea {
   border-radius: 8px;
   font-size: 15px;
 }
-input:focus,
-textarea:focus {
-  outline: none;
-  border: 2px solid royalblue;
-  box-shadow: 0 0 8px lightblue;
-}
-
 
 textarea {
   resize: vertical;
@@ -82,6 +72,7 @@ hr {
   border: 1px solid lightgray;
 }
 
+/* Navbar */
 
 .navbar {
   background-color: royalblue;
@@ -112,6 +103,7 @@ hr {
   color: lightgray;
 }
 
+/* Blog Card */
 
 .blog-card {
   background-color: white;
@@ -122,18 +114,9 @@ hr {
   transition: 0.3s;
 }
 
-.blog-card {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 10px lightgray;
-  transition: all 0.3s ease;
-}
-
 .blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 4px 8px 18px lightgray;
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 15px gray;
 }
 
 .blog-card h2 {
@@ -145,7 +128,7 @@ hr {
   margin-bottom: 10px;
 }
 
-
+/* Home */
 
 .home h1 {
   text-align: center;
@@ -170,6 +153,7 @@ hr {
   color: white;
 }
 
+/* Create Post */
 
 .create-post {
   background-color: white;
@@ -201,48 +185,39 @@ hr {
 .create-post button {
   width: 100%;
   margin-top: 10px;
-    
 }
-/* Bookmarks */
+/* Welcome Section */
 
-.bookmarks {
-  width: 90%;
-  margin: auto;
-}
-
-.bookmarks h1 {
+.welcome-section {
+  background: linear-gradient(to right, royalblue, slateblue);
+  color: white;
   text-align: center;
-  color: royalblue;
-  margin-bottom: 25px;
-}
-
-.empty-message {
-  background-color: white;
-  width: 60%;
-  margin: 40px auto;
-  padding: 25px;
-  text-align: center;
-  font-size: 18px;
-  color: gray;
-  border-radius: 10px;
+  padding: 45px 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
   box-shadow: 2px 2px 10px lightgray;
 }
-.details-buttons {
-  margin-top: 30px;
-  display: flex;
-  gap: 15px;
+
+.welcome-section h1 {
+  color: white;
+  margin-bottom: 10px;
 }
 
+.welcome-section p {
+  color: whitesmoke;
+  font-size: 18px;
+}
+/* Blog Grid */
+
+.blog-grid {
+  display: grid;
+  gap: 20px;
+}
+/* Blog Details */
 
 .blog-details {
   width: 90%;
   margin: auto;
-}
-
-.blog-details h1 {
-  text-align: center;
-  color: royalblue;
-  margin-bottom: 25px;
 }
 
 .details-card {
@@ -251,61 +226,54 @@ hr {
   border-radius: 12px;
   box-shadow: 2px 2px 10px lightgray;
   margin-bottom: 25px;
-}
-
-.details-card h2 {
-  color: royalblue;
-  margin-bottom: 15px;
-}
-
-.comments-section {
-  margin-top: 20px;
-}
-
+} 
 .comments-section h2 {
-  color: royalblue;
   margin-bottom: 15px;
 }
 
 .comment-card {
   background-color: white;
   padding: 15px;
+  margin-bottom: 15px;
   border-radius: 10px;
   box-shadow: 2px 2px 8px lightgray;
-  margin-bottom: 15px;
 }
 
-.comment-card h4 {
-  color: royalblue;
-  margin-bottom: 8px;
+.comment-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.add-comment {
+.comment-actions button {
+  width: auto;
+} .add-comment {
   background-color: white;
   padding: 25px;
-  border-radius: 12px;
-  box-shadow: 2px 2px 10px lightgray;
   margin-top: 30px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px lightgray;
 }
-
-.add-comment h2 {
-  color: royalblue;
-  margin-bottom: 15px;
+.empty-message {
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 10px lightgray;
+  width: 70%;
+  margin: 30px auto;
 }
-
 .details-buttons {
   display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 25px;
+  gap: 10px;
+  margin-top: 20px;
+} 
+.nav-links a {
+  transition: 0.3s;
 }
-
-.details-buttons button {
-  min-width: 140px;
-}
+/* Responsive Design */
 
 @media (max-width: 768px) {
-
   #root {
     width: 95%;
     padding: 15px;
@@ -320,7 +288,6 @@ hr {
   .nav-links {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
   }
 
   .create-post {
@@ -328,20 +295,13 @@ hr {
     padding: 20px;
   }
 
-  .blog-card {
-    padding: 15px;
-  }
-
-  .details-card {
-    padding: 20px;
-  }
-
-  .add-comment {
-    padding: 20px;
-  }
-
   .empty-message {
     width: 100%;
+  }
+
+  .details-card,
+  .add-comment {
+    padding: 20px;
   }
 
   .details-buttons {
@@ -352,123 +312,46 @@ hr {
     width: 100%;
   }
 
-  .tag-buttons {
-    justify-content: center;
+  .comment-actions {
+    flex-direction: column;
   }
 
-  .tag-buttons button {
-    flex: 1 1 40%;
+  .comment-actions button {
+    width: 100%;
   }
 
   button {
     width: 100%;
-    margin: 8px 0;
   }
 
-  .comment-card {
-    padding: 12px;
+  .tag-buttons {
+    justify-content: center;
+  }
+
+  .welcome-section {
+    padding: 30px 20px;
+  }
+
+  .welcome-section h1 {
+    font-size: 28px;
+  }
+
+  .welcome-section p {
+    font-size: 16px;
   }
 }
-.home,
-.blog-details,
-.create-post,
-.bookmarks {
-  margin-top: 20px;
-}
-
-.comments-section {
-  margin-top: 30px;
-}
-
-.add-comment {
-  margin-top: 30px;
-}
-
-.details-buttons {
-  margin-top: 30px;
-}
-.welcome-text {
-  text-align: center;
-  color: gray;
-  font-size: 18px;
-  margin: 15px 0 25px;
-}
-
-.blog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-@media (max-width: 992px) {
-  .blog-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .blog-grid {
-    grid-template-columns: 1fr;
-  }
-} 
-.read-more {
-  display: inline-block;
-  margin-top: 12px;
+.nav-btn {
+  background-color: white;
   color: royalblue;
   font-weight: bold;
-  text-decoration: none;
+  padding: 8px 15px;
+  margin-left: 10px;
 }
 
-.read-more:hover {
-  color: blue;
-  text-decoration: underline;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-.tag {
-  background-color: royalblue;
+.nav-btn:hover {
+  background-color: whitesmoke;
+} .welcome-section p {
   color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-}
-.blog-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-} .welcome-section {
-  text-align: center;
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-  color: white;
-  padding: 40px 20px;
-  border-radius: 15px;
-  margin-bottom: 30px;
-}
-
-.welcome-section h1 {
-  font-size: 40px;
-  margin-bottom: 10px;
-}
-
-.welcome-section p {
-  font-size: 18px;
-  color: #e5e7eb;
-  margin-bottom: 20px;
-}
-
-.create-btn {
-  background: white;
-  color: #4f46e5;
+  font-size: 28px;
   font-weight: bold;
-  padding: 12px 24px;
-  border-radius: 10px;
-}
-
-.create-btn:hover {
-  background: #f3f4f6;
 }

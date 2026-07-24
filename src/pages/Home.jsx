@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useAtom } from "jotai";
 import { createdPostsAtom } from "../atoms/bookmarkAtoms";
 import BlogCard from "../components/BlogCard";
@@ -25,6 +24,7 @@ function Home() {
             const res = await fetch(
               `https://dummyjson.com/comments/post/${post.id}`
             );
+
             const comments = await res.json();
 
             const localComments =
@@ -77,7 +77,9 @@ function Home() {
 
   const allTags = [
     "All",
-    ...new Set(posts.flatMap((post) => post.tags || [])),
+    ...new Set(
+      posts.flatMap((post) => post.tags || [])
+    ),
   ];
 
   const filteredPosts =
@@ -90,21 +92,13 @@ function Home() {
   return (
     <div className="home">
       <div className="welcome-section">
-        <h1>📝 Personal Blog</h1>
 
         <p>
-          Welcome! Discover interesting posts, share your ideas,
-          and connect through comments.
+          Welcome! Discover interesting posts,
+          share your ideas, and connect through
+          comments.
         </p>
-
-        <Link to="/create">
-          <button className="create-btn">
-            ➕ Create New Post
-          </button>
-        </Link>
       </div>
-
-      <br />
 
       <h3>Filter by Tag</h3>
 
@@ -112,14 +106,14 @@ function Home() {
         {allTags.map((tag) => (
           <button
             key={tag}
-            onClick={() => setSelectedTag(tag)}
+            onClick={() =>
+              setSelectedTag(tag)
+            }
           >
             {tag}
           </button>
         ))}
       </div>
-
-      <br />
 
       <div className="blog-grid">
         {filteredPosts.map((post) => (

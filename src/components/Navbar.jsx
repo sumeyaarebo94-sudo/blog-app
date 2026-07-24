@@ -7,9 +7,14 @@ function Navbar() {
 
       <div className="nav-links">
         <Link to="/">Home</Link>
-        <Link to="/create">Create Post</Link>
         <Link to="/bookmarks">Bookmarks</Link>
       </div>
+
+      <Link to="/create">
+        <button className="navbar-create-btn">
+          ➕ Create New Post
+        </button>
+      </Link>
     </nav>
   );
 }
