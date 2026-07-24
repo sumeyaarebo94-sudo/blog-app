@@ -6,9 +6,12 @@ import BlogCard from "../components/BlogCard";
 function Home() {
   const [posts, setPosts] = useState([]);
   const [createdPosts] = useAtom(createdPostsAtom);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const [selectedTag, setSelectedTag] = useState("All");
+  const [showTop, setShowTop] = useState(false);
 
   useEffect(() => {
     fetch("https://dummyjson.com/posts?limit=10")
@@ -66,7 +69,30 @@ function Home() {
       });
   }, [createdPosts]);
 
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 300) {
+        setShowTop(true);
+      } else {
+        setShowTop(false);
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   if (loading) return <h2>Loading...</h2>;
+
   if (error) return <h2>{error}</h2>;
 
   const allTags = [
@@ -115,6 +141,15 @@ function Home() {
           />
         ))}
       </div>
+
+      {showTop && (
+        <button
+          className="scroll-top"
+          onClick={scrollToTop}
+        >
+          ↑
+        </button>
+      )}
     </div>
   );
 }
